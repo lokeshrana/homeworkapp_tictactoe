@@ -1,16 +1,97 @@
 # Entity
-type TypeName {
-  typeName: String!
+type Board {
+  id: Int
+  user1Id: Int
+  user2Id: Int
+  winnerId: Int
+  createdAt: String
+  updatedAt: String
+  user1: User
+  user2: User
+  moves: [Move]
+}
+
+type Move {
+  id: Int
+  boardId: Int
+  userId: Int
+  positionX: Int
+  positionY: Int
+  user: User
+  createdAt: String
+  updatedAt: String
+}
+
+type Boards {
+  totalCount: Int
+  edges: [BoardEdges]
+  pageInfo: BoardPageInfo
+}
+
+type BoardEdges {
+  node: Board
+  cursor: Int
+}
+
+type BoardPageInfo {
+  endCursor: Int
+  hasNextPage: Boolean
 }
 
 extend type Query {
-  queryName: TypeName
+  board(id: Int): Board
+  boards(
+    limit: Int
+    after: Int
+    orderBy: OrderByBoardInput
+    filter: FilterBoardInput
+  ): Boards
+  boardsByUser(
+    limit: Int
+    after: Int
+    orderBy: OrderByBoardInput
+    filter: FilterBoardInput
+  ): Boards
+}
+
+input FilterBoardInput {
+  userId: Int
+}
+
+input OrderByBoardInput {
+  column: String
+  order: String
 }
 
 extend type Mutation {
-  mutationName(varName: Int!): TypeName
+  addBoard(input: AddBoardInput!): Board
+  # editBoard(input: EditBoardInput!): Board
+  deleteBoard(id: Int!): Board
 }
 
+input AddBoardInput {
+  creatorId: Int
+  inviteeEmail: String
+}
+
+# input EditBoardInput {
+#   id: Int!
+#   boardId: String
+#   omimId: String
+#   ensemblId: String
+#   boardSymbol: String
+#   cosmicSymbol: String
+#   boardName: String
+#   status: String
+#   refSeqAccession: String
+#   chromosomeLocation: String
+# }
+
 extend type Subscription {
-  subscriptionName: TypeName
+  boardUpdated(filter: FilterBoardInput): UpdateBoardPayload
+}
+
+type UpdateBoardPayload {
+  mutation: String!
+  node: Board
 }

@@ -15,11 +15,13 @@ const NavLinkWithI18n = translate('board')(({ t }: { t: TranslateFunction }) => 
 ));
 
 export default new ClientModule({
-  route: [<Route exact path="/board" component={loadable(() => import('./containers/Board').then(c => c.default))} />],
+  route: [
+    <Route exact path="/board" component={loadable(() => import('./containers/Board').then((c) => c.default))} />,
+  ],
   navItem: [
     <MenuItem key="/board">
       <NavLinkWithI18n />
-    </MenuItem>
+    </MenuItem>,
   ],
-  localization: [{ ns: 'board', resources }]
+  localization: [{ ns: 'board', resources }],
 });

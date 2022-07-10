@@ -12,18 +12,21 @@ const HeaderTitleWithI18n = translate('board')(HeaderTitle);
 export default new ClientModule({
   drawerItem: [
     {
-      screen: Drawer => (
-        <Drawer.Screen name="Board" component={Board} options={({navigation}) => ({
-          headerTitle: () => <HeaderTitleWithI18n style="subTitle" />,
-          headerLeft: () => (
-            <IconButton iconName="menu" iconSize={32} iconColor="#0275d8" onPress={() => navigation.openDrawer()} />
-          ),
-          headerStyle: { backgroundColor: '#fff' },
-          drawerLabel: () => <HeaderTitleWithI18n />
-        })}
+      screen: (Drawer) => (
+        <Drawer.Screen
+          name="Board"
+          component={Board}
+          options={({ navigation }) => ({
+            headerTitle: () => <HeaderTitleWithI18n style="subTitle" />,
+            headerLeft: () => (
+              <IconButton iconName="menu" iconSize={32} iconColor="#0275d8" onPress={() => navigation.openDrawer()} />
+            ),
+            headerStyle: { backgroundColor: '#fff' },
+            drawerLabel: () => <HeaderTitleWithI18n />,
+          })}
         />
-      )
-    }
+      ),
+    },
   ],
-  localization: [{ ns: 'board', resources }]
+  localization: [{ ns: 'board', resources }],
 });

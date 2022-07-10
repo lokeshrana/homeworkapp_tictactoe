@@ -7,5 +7,5 @@ import Board from './sql';
 export default new ServerModule({
   schema: [schema],
   createResolversFunc: [createResolvers],
-  createContextFunc: [() => ({ Board: new Board() })]
+  createContextFunc: [() => ({ Board: new Board() })],
 });
