@@ -1,21 +1,28 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Helmet from 'react-helmet';
+import React from "react";
+import PropTypes from "prop-types";
+import Helmet from "react-helmet";
 
-import { translate } from '@gqlapp/i18n-client-react';
-import { LayoutCenter, PageLayout, Card, CardGroup, CardTitle, CardText } from '@gqlapp/look-client-react';
-import settings from '@gqlapp/config';
+import { translate } from "@gqlapp/i18n-client-react";
+import {
+  LayoutCenter,
+  PageLayout,
+  Card,
+  CardGroup,
+  CardTitle,
+  CardText,
+} from "@gqlapp/look-client-react";
+import settings from "@gqlapp/config";
 
-import RegisterForm from './RegisterForm';
+import RegisterForm from "./RegisterForm";
 
 const RegisterView = ({ t, onSubmit, isRegistered }) => {
   const renderMetaData = () => (
     <Helmet
-      title={`${settings.app.name} - ${t('reg.title')}`}
+      title={`${settings.app.name} - ${t("reg.title")}`}
       meta={[
         {
-          name: 'description',
-          content: `${settings.app.name} - ${t('reg.meta')}`,
+          name: "description",
+          content: `${settings.app.name} - ${t("reg.meta")}`,
         },
       ]}
     />
@@ -23,9 +30,9 @@ const RegisterView = ({ t, onSubmit, isRegistered }) => {
 
   const renderConfirmationModal = () => (
     <Card>
-      <CardGroup style={{ textAlign: 'center' }}>
-        <CardTitle>{t('reg.confirmationMsgTitle')}</CardTitle>
-        <CardText>{t('reg.confirmationMsgBody')}</CardText>
+      <CardGroup style={{ textAlign: "center" }}>
+        <CardTitle>{t("reg.confirmationMsgTitle")}</CardTitle>
+        <CardText>{t("reg.confirmationMsgBody")}</CardText>
       </CardGroup>
     </Card>
   );
@@ -33,14 +40,11 @@ const RegisterView = ({ t, onSubmit, isRegistered }) => {
   return (
     <PageLayout>
       {renderMetaData(t)}
-      <LayoutCenter>
-        <h1 className="text-center">{t('reg.form.title')}</h1>
-        {isRegistered && settings.auth.password.requireEmailConfirmation ? (
-          renderConfirmationModal()
-        ) : (
-          <RegisterForm onSubmit={onSubmit} />
-        )}
-      </LayoutCenter>
+      {isRegistered && settings.auth.password.requireEmailConfirmation ? (
+        renderConfirmationModal()
+      ) : (
+        <RegisterForm onSubmit={onSubmit} />
+      )}
     </PageLayout>
   );
 };
@@ -51,4 +55,4 @@ RegisterView.propTypes = {
   isRegistered: PropTypes.bool,
 };
 
-export default translate('user')(RegisterView);
+export default translate("user")(RegisterView);

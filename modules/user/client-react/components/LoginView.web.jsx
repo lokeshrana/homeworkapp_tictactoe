@@ -1,20 +1,28 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Helmet from 'react-helmet';
+import React from "react";
+import PropTypes from "prop-types";
+import Helmet from "react-helmet";
 
-import { LayoutCenter, PageLayout, Card, CardGroup, CardTitle, CardText, Button } from '@gqlapp/look-client-react';
-import settings from '@gqlapp/config';
+import {
+  LayoutCenter,
+  PageLayout,
+  Card,
+  CardGroup,
+  CardTitle,
+  CardText,
+  Button,
+} from "@gqlapp/look-client-react";
+import settings from "@gqlapp/config";
 
-import LoginForm from './LoginForm';
+import LoginForm from "./LoginForm";
 
 const LoginView = ({ onSubmit, t, isRegistered, hideModal }) => {
   const renderMetaData = () => (
     <Helmet
-      title={`${settings.app.name} - ${t('login.title')}`}
+      title={`${settings.app.name} - ${t("login.title")}`}
       meta={[
         {
-          name: 'description',
-          content: `${settings.app.name} - ${t('login.meta')}`,
+          name: "description",
+          content: `${settings.app.name} - ${t("login.meta")}`,
         },
       ]}
     />
@@ -22,12 +30,16 @@ const LoginView = ({ onSubmit, t, isRegistered, hideModal }) => {
 
   const renderConfirmationModal = () => (
     <Card>
-      <CardGroup style={{ textAlign: 'center' }}>
-        <CardTitle>{t('reg.successRegTitle')}</CardTitle>
-        <CardText>{t('reg.successRegBody')}</CardText>
+      <CardGroup style={{ textAlign: "center" }}>
+        <CardTitle>{t("reg.successRegTitle")}</CardTitle>
+        <CardText>{t("reg.successRegBody")}</CardText>
         <CardText>
-          <Button style={{ minWidth: '320px' }} color="primary" onClick={hideModal}>
-            {t('login.form.btnSubmit')}
+          <Button
+            style={{ minWidth: "320px" }}
+            color="primary"
+            onClick={hideModal}
+          >
+            {t("login.form.btnSubmit")}
           </Button>
         </CardText>
       </CardGroup>
@@ -37,24 +49,13 @@ const LoginView = ({ onSubmit, t, isRegistered, hideModal }) => {
   return (
     <PageLayout>
       {renderMetaData()}
-      <LayoutCenter>
-        {isRegistered ? (
-          renderConfirmationModal()
-        ) : (
-          <React.Fragment>
-            <h1 className="text-center">{t('login.form.title')}</h1>
-            <LoginForm onSubmit={onSubmit} />
-            <hr />
-            <Card>
-              <CardGroup>
-                <CardTitle>{t('login.cardTitle')}:</CardTitle>
-                <CardText>admin@example.com:admin123</CardText>
-                <CardText>user@example.com:user1234</CardText>
-              </CardGroup>
-            </Card>
-          </React.Fragment>
-        )}
-      </LayoutCenter>
+      {isRegistered ? (
+        renderConfirmationModal()
+      ) : (
+        <React.Fragment>
+          <LoginForm onSubmit={onSubmit} />
+        </React.Fragment>
+      )}
     </PageLayout>
   );
 };

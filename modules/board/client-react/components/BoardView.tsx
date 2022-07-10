@@ -1,9 +1,9 @@
-import React from 'react';
-import Helmet from 'react-helmet';
-
-import { PageLayout } from '@gqlapp/look-client-react';
-import { TranslateFunction } from '@gqlapp/i18n-client-react';
-import settings from '@gqlapp/config';
+import React from "react";
+import Helmet from "react-helmet";
+import { Link } from "react-router-dom";
+import { PageLayout, Button } from "@gqlapp/look-client-react";
+import { TranslateFunction } from "@gqlapp/i18n-client-react";
+import settings from "@gqlapp/config";
 
 interface BoardViewProps {
   t: TranslateFunction;
@@ -11,18 +11,36 @@ interface BoardViewProps {
 
 const renderMetaData = (t: TranslateFunction) => (
   <Helmet
-    title={`${settings.app.name} - ${t('title')}`}
-    meta={[{ name: 'description', content: `${settings.app.name} - ${t('meta')}` }]}
+    title={`${settings.app.name} - ${t("title")}`}
+    meta={[
+      { name: "description", content: `${settings.app.name} - ${t("meta")}` },
+    ]}
   />
 );
 
 const BoardView = ({ t }: BoardViewProps) => {
   return (
-    <PageLayout>
+    <PageLayout gridRows={"1fr 60px 60px"}>
       {renderMetaData(t)}
-      <div className="text-center">
-        <p>{t('welcomeText')}</p>
+      <div
+        className="home-title"
+        style={{
+          display: "grid",
+          alignItems: "center",
+          justifyContent: "center",
+          alignContent: "center",
+        }}
+      >
+        <h3>async</h3>
+        <h1>tic tac</h1>
+        <h1>toe</h1>
       </div>
+      <Link to="/login" style={{display:"block"}}>
+        <Button type="primary">Login</Button>
+      </Link>
+      <Link to='/register'>
+      <Button>Register</Button>
+      </Link>
     </PageLayout>
   );
 };

@@ -7,19 +7,20 @@ import loadable from '@loadable/component';
 import { Route, NavLink } from 'react-router-dom';
 import { MenuItem } from '@gqlapp/look-client-react';
 import resources from './locales';
-
+//@ts-ignore
+import {AuthRoute} from '@gqlapp/user-client-react/containers/Auth';
 const NavLinkWithI18n = translate('board')(({ t }: { t: TranslateFunction }) => (
-  <NavLink to="/board" className="nav-link" activeClassName="active">
+  <NavLink to="/" className="nav-link" activeClassName="active">
     {t('board:navLink')}
   </NavLink>
 ));
 
 export default new ClientModule({
   route: [
-    <Route exact path="/board" component={loadable(() => import('./containers/Board').then((c) => c.default))} />,
+    <AuthRoute redirectOnLoggedIn exact path="/" component={loadable(() => import('./containers/Board').then((c) => c.default))} />,
   ],
   navItem: [
-    <MenuItem key="/board">
+    <MenuItem key="/">
       <NavLinkWithI18n />
     </MenuItem>,
   ],

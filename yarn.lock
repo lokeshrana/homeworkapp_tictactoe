@@ -12070,6 +12070,7 @@ __metadata:
     react-addons-test-utils: ^16.0.0-alpha.3
     react-apollo: ^3.0.0
     react-art: 16.11.0
+    react-bootstrap-icons: ^1.8.4
     react-cookie: ^2.2.0
     react-debounce-input: ^3.1.0
     react-dom: 16.11.0
@@ -29678,6 +29679,17 @@ __metadata:
   peerDependencies:
     react: ^18.1.0
   checksum: d2e4abb00255e4931f41dca5bae1f739810281d4c774b63b4bed70150a68ecb27f55976181664df7a76257b9c1f7b24e2bc19cd80665fd2d86bf234330cde030
+  languageName: node
+  linkType: hard
+
+"react-bootstrap-icons@npm:^1.8.4":
+  version: 1.8.4
+  resolution: "react-bootstrap-icons@npm:1.8.4"
+  dependencies:
+    prop-types: ^15.7.2
+  peerDependencies:
+    react: ">=16.8.6"
+  checksum: c4b2dcbb1dcf18ae75f0e470b71ef7dde1937401a14051754b7f488993d37c17d83ccdfce0993d2f26ac710a6b936edfd4bd5ab287be66d03244f4dd9d9226ee
   languageName: node
   linkType: hard
 

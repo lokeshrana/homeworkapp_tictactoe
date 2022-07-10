@@ -12,7 +12,7 @@ const RenderField = ({ input, name, label, type, meta: { touched, error }, child
 
   return (
     <FormGroup>
-      {label && <Label id={labelId}>{label}</Label>}
+      {label && <Label className='form-field-label' id={labelId}>{label}</Label>}
       <div>
         <Input aria-labelledby={labelId} {...input} placeholder={label || placeholder} type={type} invalid={!valid}>
           {children}
