@@ -1,18 +1,14 @@
-import withAuth from "graphql-auth";
-import { withFilter } from "graphql-subscriptions";
+import withAuth from 'graphql-auth';
+import { withFilter } from 'graphql-subscriptions';
 
-const BOARD_SUBSCRIPTION = "board_subscription";
+const BOARD_SUBSCRIPTION = 'board_subscription';
 
 export default (pubsub: any) => ({
   Query: {
-    async boardsByUser(
-      obj: any,
-      { filter, limit, after, orderBy }: any,
-      context: any
-    ) {
+    async boardsByUser(obj: any, { filter, limit, after, orderBy }: any, context: any) {
       const identity = context.req.identity;
-      if (identity.id !== filter.userId && identity.role !== "admin") {
-        throw new Error("Unauthorized");
+      if (identity.id !== filter.userId && identity.role !== 'admin') {
+        throw new Error('Unauthorized');
       }
 
       const boardOutput = await context.Board.boards(limit, after, orderBy, {
@@ -29,8 +25,7 @@ export default (pubsub: any) => ({
             node: boardItem,
           });
         });
-      const endCursor =
-        edgesArray.length > 0 ? edgesArray[edgesArray.length - 1].cursor : 0;
+      const endCursor = edgesArray.length > 0 ? edgesArray[edgesArray.length - 1].cursor : 0;
       return {
         totalCount: total,
         edges: edgesArray,
@@ -40,17 +35,8 @@ export default (pubsub: any) => ({
         },
       };
     },
-    async boards(
-      obj: any,
-      { filter, limit, after, orderBy }: any,
-      context: any
-    ) {
-      const boardOutput = await context.Board.boards(
-        limit,
-        after,
-        orderBy,
-        filter
-      );
+    async boards(obj: any, { filter, limit, after, orderBy }: any, context: any) {
+      const boardOutput = await context.Board.boards(limit, after, orderBy, filter);
       const { boardItems, total } = boardOutput;
       const hasNextPage = total > after + limit;
 
@@ -62,8 +48,7 @@ export default (pubsub: any) => ({
             node: boardItem,
           });
         });
-      const endCursor =
-        edgesArray.length > 0 ? edgesArray[edgesArray.length - 1].cursor : 0;
+      const endCursor = edgesArray.length > 0 ? edgesArray[edgesArray.length - 1].cursor : 0;
       return {
         totalCount: total,
         edges: edgesArray,
@@ -83,14 +68,13 @@ export default (pubsub: any) => ({
       try {
         const { creatorId, inviteeEmail } = input;
         const identity = context.req.identity;
-        if (identity.id !== creatorId && identity.role !== "admin") {
-          throw Error("You are not authorized to add a board");
+        if (identity.id !== creatorId && identity.role !== 'admin') {
+          throw Error('You are not authorized to add a board');
         }
         const userByEmail = await context.User.getUserByEmail(inviteeEmail);
-        const checkIfBoardExistsForUsers =
-          await context.Board.getBoardByBothUserIds(creatorId, userByEmail.id);
+        const checkIfBoardExistsForUsers = await context.Board.getBoardByBothUserIds(creatorId, userByEmail.id);
         if (checkIfBoardExistsForUsers) {
-          throw Error("Board already exists for these users");
+          throw Error('Board already exists for these users');
         }
         const createdBoard = await context.Board.addBoardByBothUserIds({
           userId1: identity.id,
@@ -100,7 +84,7 @@ export default (pubsub: any) => ({
         // publish for boards list
         pubsub.publish(BOARD_SUBSCRIPTION, {
           boardUpdated: {
-            mutation: "CREATED",
+            mutation: 'CREATED',
             node: board,
           },
         });
@@ -157,7 +141,7 @@ export default (pubsub: any) => ({
           // publish for edit board page
           pubsub.publish(BOARD_SUBSCRIPTION, {
             boardUpdated: {
-              mutation: "DELETED",
+              mutation: 'DELETED',
               node: board,
             },
           });
@@ -166,7 +150,7 @@ export default (pubsub: any) => ({
           return null;
         }
       } catch (e) {
-        throw Error("Deleting Board Failed");
+        throw Error('Deleting Board Failed');
       }
     }),
   },
@@ -179,14 +163,13 @@ export default (pubsub: any) => ({
           const {
             filter: { userId },
           } = variables;
-          const checkByFilter =
-            !userId || userId === node.user_1_id || userId === node.user_2_id;
+          const checkByFilter = !userId || userId === node.user_1_id || userId === node.user_2_id;
           switch (mutation) {
-            case "DELETED":
+            case 'DELETED':
               return true;
-            case "CREATED":
+            case 'CREATED':
               return checkByFilter;
-            case "UPDATED":
+            case 'UPDATED':
               return !checkByFilter;
           }
         }
