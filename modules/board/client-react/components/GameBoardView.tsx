@@ -9,7 +9,12 @@ import {
   CardTitle,
 } from "@gqlapp/look-client-react";
 import { Plus } from "react-bootstrap-icons";
-import { CrossSymbol, ZeroSymbol } from "./utils";
+import {
+  CrossSymbol,
+  getIfCurrentUser1,
+  getOtherUserFullNameFromBoard,
+  ZeroSymbol,
+} from "./utils";
 const NoBoardFoundComponent = () => {
   return (
     <div className="no-boards-wrapper">
@@ -22,27 +27,10 @@ const NoBoardFoundComponent = () => {
   );
 };
 
-const getOtherUserFullNameFromBoard = (board: any, currentUserId: number) => {
-  const otherUser =
-    board?.user1?.id === currentUserId ? board?.user2 : board?.user1;
-  let fullName = "";
-  if (otherUser?.profile?.firstName && otherUser?.profile?.lastName) {
-    fullName = `${otherUser.profile.firstName} ${otherUser.profile.lastName}`;
-  } else if (otherUser?.profile?.firstName && !otherUser?.profile?.lastName) {
-    fullName = `${otherUser.profile.firstName}`;
-  } else if (!otherUser?.profile?.firstName && otherUser?.profile?.lastName) {
-    fullName = `${otherUser.profile.lastName}`;
-  } else {
-    fullName = "Name not found";
-  }
-  return fullName;
-};
-
-const getIfCurrentUser1 = (board: any, currentUserId: number) => {
-  return board?.user1?.id === currentUserId;
-};
-
 const getIfYourMove = (board: any, isCurrentUser1: boolean) => {
+  if (board.winnerId) {
+    return false;
+  }
   if (isCurrentUser1) {
     return board?.moves?.length % 2 === 0;
   } else {
@@ -65,6 +53,15 @@ const GameBoardsView = (props: any) => {
   );
   const otherUserName = getOtherUserFullNameFromBoard(board, currentUser.id);
   const isCurrentUser1 = getIfCurrentUser1(board, currentUser.id);
+  let winStatement = "";
+  const isCurrentUserWinner = currentUser?.id === board?.winnerId;
+  if (board.winnerId) {
+    if (isCurrentUserWinner) {
+      winStatement = "You won!";
+    } else {
+      winStatement = `${otherUserName} won!`;
+    }
+  }
   const isYourMove = getIfYourMove(board, isCurrentUser1);
   const getBoxSymbol = (row: number, col: number) => {
     const move = board?.moves?.find(
@@ -87,6 +84,7 @@ const GameBoardsView = (props: any) => {
     }
     return "";
   };
+
   return (
     <PageLayout gridRows="1fr 60px">
       <div>
@@ -96,11 +94,20 @@ const GameBoardsView = (props: any) => {
         <br />
         <div className="game-board-container">
           <div className="game-board-title">
-            {isYourMove ? "Your move" : "Opponent's move"}
+            {isYourMove
+              ? "Your move"
+              : winStatement === ""
+              ? "Opponent's move"
+              : winStatement}
           </div>
           <div
             className="game-board-game"
-            style={{ pointerEvents: boardLoading || !isYourMove ? "none" : "unset" }}
+            style={{
+              pointerEvents:
+                boardLoading || !isYourMove || board.winnerId
+                  ? "none"
+                  : "unset",
+            }}
           >
             {Array.from(Array(3).keys()).map((row: number) => {
               return (
@@ -122,7 +129,7 @@ const GameBoardsView = (props: any) => {
           </div>
         </div>
       </div>
-      <Button>Submit</Button>
+      {winStatement === "" && (<Button>Submit</Button>)}
     </PageLayout>
   );
 };

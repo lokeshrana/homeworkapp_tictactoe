@@ -1,5 +1,6 @@
 fragment UserProfileInfo on UserProfile {
+  id
+  userId
   firstName
   lastName
-  fullName
 }

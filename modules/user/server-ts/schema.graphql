@@ -6,12 +6,15 @@ type User {
   email: String!
   profile: UserProfile
   auth: UserAuth
+  firstName: String
+  lastName: String
 }
 
 type UserProfile {
+  id: Int
+  userId: Int
   firstName: String
   lastName: String
-  fullName: String
 }
 
 # Additional authentication service info

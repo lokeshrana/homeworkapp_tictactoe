@@ -17,6 +17,8 @@ export async function seed(knex, Promise) {
     password_hash: await bcrypt.hash("admin123", 12),
     role: "admin",
     is_active: true,
+    first_name: `Admin`,
+    last_name: `Last`,
   });
 
   await returnId(
@@ -26,12 +28,14 @@ export async function seed(knex, Promise) {
     })
   );
   for (let i = 0; i < 10; i++) {
-    await returnId(knex("user")).insert({
+    const userId = await returnId(knex("user")).insert({
       username: `user-${i}`,
       email: `user-${i}@example.com`,
       password_hash: await bcrypt.hash("user1234", 12),
       role: "user",
       is_active: true,
+      first_name: `User-${i}`,
+      last_name: `Last-${i}`,
     });
   }
 }

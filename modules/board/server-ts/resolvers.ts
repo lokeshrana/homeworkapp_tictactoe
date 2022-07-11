@@ -75,6 +75,7 @@ export default (pubsub: any) => ({
         userId: identity.id,
       });
       const { boardItems, total } = boardOutput;
+      console.log("🚀 ~ file: resolvers.ts ~ line 78 ~ boardItems", boardItems)
       const hasNextPage = total > after + limit;
 
       const edgesArray = [];
@@ -146,9 +147,16 @@ export default (pubsub: any) => ({
         if (!userByEmail) {
           throw Error("No user exists with this email");
         }
-        const checkIfBoardExistsForUsers =
-          await context.Board.getBoardByBothUserIds(creatorId, userByEmail.id);
-        if (checkIfBoardExistsForUsers) {
+        const existingBoards =
+        await context.Board.getBoardsByBothUserIds(creatorId, userByEmail.id);
+        console.log("🚀 ~ file: resolvers.ts ~ line 151 ~ addBoard:withAuth ~ existingBoards", existingBoards);
+        let contineousBoardExists = false;
+        existingBoards.forEach((board:any)=>{
+          if(!board.winnerId){
+            contineousBoardExists = true;
+          }
+        })
+        if (contineousBoardExists) {
           throw Error("Board already exists for these users");
         }
         const createdBoard = await context.Board.addBoardByBothUserIds({

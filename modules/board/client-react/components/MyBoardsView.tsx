@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from "@gqlapp/look-client-react";
 import { Plus } from "react-bootstrap-icons";
+import { getBoardCartDescriptionStatement, getIfCurrentUser1, getOtherUserFullNameFromBoard } from "./utils";
 
 const NoBoardFoundComponent = () => {
   return (
@@ -22,52 +23,7 @@ const NoBoardFoundComponent = () => {
   );
 };
 
-const getOtherUserFullNameFromBoard = (board: any, currentUserId: number) => {
-  const otherUser =
-    board?.user1?.id === currentUserId ? board.user2 : board.user1;
-  let fullName = "";
-  if (otherUser?.profile?.firstName && otherUser?.profile?.lastName) {
-    fullName = `${otherUser.profile.firstName} ${otherUser.profile.lastName}`;
-  } else if (otherUser?.profile?.firstName && !otherUser?.profile?.lastName) {
-    fullName = `${otherUser.profile.firstName}`;
-  } else if (!otherUser?.profile?.firstName && otherUser?.profile?.lastName) {
-    fullName = `${otherUser.profile.lastName}`;
-  } else {
-    fullName = "Name not found";
-  }
-  return fullName;
-};
 
-const getIfCurrentUser1 = (board: any, currentUserId: number) => {
-  return board?.user1?.id === currentUserId;
-};
-
-const getBoardCartDescriptionStatement = (
-  board: any,
-  opponentFullName: string,
-  isCurrentUser1: boolean
-) => {
-  const moves = board.moves;
-  if (board.winnerId) {
-    if (board.winnerId === board.user1.id) {
-      return isCurrentUser1 ? "You won the game" : `${opponentFullName} won!`;
-    } else if (board.winnerId === board.user2.id) {
-      return isCurrentUser1 ? `${opponentFullName} won!` : "You won the game";
-    }
-  } else if (moves?.length === 0) {
-    return "You haven't started the game yet";
-  } else if (moves?.length % 2 === 0) {
-    return isCurrentUser1
-      ? `${opponentFullName} just made their move. Its your turn to play now`
-      : "You've made your move. Waiting for them.";
-  } else if (moves?.length % 2 === 1) {
-    return isCurrentUser1
-      ? "You've made your move. Waiting for them."
-      : `${opponentFullName} just made their move. Its your turn to play now`;
-  } else {
-    return "Something went wrong";
-  }
-};
 
 const MyBoardsView = (props: any) => {
   const { t, currentUser, boards, loading } = props;

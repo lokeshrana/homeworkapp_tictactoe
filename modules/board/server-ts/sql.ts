@@ -136,8 +136,8 @@ export default class Board extends Model {
     return res;
   }
 
-  public async getBoardByBothUserIds(userId1: number, userId2: number) {
-    const res = await Board.query()
+  public async getBoardsByBothUserIds(userId1: number, userId2: number) {
+    const res = camelizeKeys(await Board.query()
       .where(function () {
         this.where("board.user_1_id", userId1).andWhere(
           "board.user_2_id",
@@ -150,8 +150,7 @@ export default class Board extends Model {
           userId1
         );
       })
-      .withGraphFetched(eager)
-      .first();
+      .withGraphFetched(eager));
     return res;
   }
 

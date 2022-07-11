@@ -43,28 +43,28 @@ export default (pubsub) => ({
       return null;
     },
   },
-  User: {
-    profile(obj) {
-      return obj;
-    },
-    auth(obj) {
-      return obj;
-    },
-  },
-  UserProfile: {
-    firstName(obj) {
-      return obj.firstName;
-    },
-    lastName(obj) {
-      return obj.lastName;
-    },
-    fullName(obj) {
-      if (obj.firstName && obj.lastName) {
-        return `${obj.firstName} ${obj.lastName}`;
-      }
-      return null;
-    },
-  },
+  // User: {
+  //   // profile(obj) {
+  //   //   return obj;
+  //   // },
+  //   auth(obj) {
+  //     return obj;
+  //   },
+  // },
+  // UserProfile: {
+  //   firstName(obj) {
+  //     return obj.firstName;
+  //   },
+  //   lastName(obj) {
+  //     return obj.lastName;
+  //   },
+  //   fullName(obj) {
+  //     if (obj.firstName && obj.lastName) {
+  //       return `${obj.firstName} ${obj.lastName}`;
+  //     }
+  //     return null;
+  //   },
+  // },
   Mutation: {
     addUser: withAuth(
       (obj, { input }, { req: { identity } }) => {

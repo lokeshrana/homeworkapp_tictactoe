@@ -6,6 +6,8 @@ fragment UserInfo on User {
   role
   isActive
   email
+  firstName
+  lastName
   profile {
     ...UserProfileInfo
   }
