@@ -1,7 +1,5 @@
 @import "~bootstrap/scss/bootstrap";
-@import url("https://fonts.googleapis.com/css2?family=Epilogue:wght@400&display=swap");
-
-#root {
+@import url('https://fonts.googleapis.com/css2?family=Bilbo&family=Epilogue:wght@400&display=swap');#root {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -121,4 +119,60 @@ input {
   display: grid;
   gap: 22px;
   grid-template-rows: 1fr auto 60px;
+}
+.my-boards-wrapper {
+  h3 {
+    font-family: "Epilogue";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 32px;
+    /* identical to box height, or 114% */
+
+    letter-spacing: -0.05em;
+
+    /* Dark Grey */
+
+    color: #333333;
+  }
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position:relative;
+  .add-more-button{
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    width: 100px;
+    height: 50px;
+    background: black;
+    color:white;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    &:hover{
+      background: #444;
+      color: white;
+    }
+  }
+}
+
+.no-boards-wrapper {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  align-content: center;
+  h1 {
+    font-family: "Bilbo";
+    font-style: italic;
+    font-weight: 400;
+    font-size: 64px;
+    line-height: 80px;
+    text-align: center;
+
+    color: #000000;
+  }
 }

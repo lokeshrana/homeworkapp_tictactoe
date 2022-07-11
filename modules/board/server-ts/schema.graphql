@@ -8,6 +8,7 @@ type Board {
   updatedAt: String
   user1: User
   user2: User
+  winner: User
   moves: [Move]
 }
 
@@ -46,7 +47,7 @@ extend type Query {
     orderBy: OrderByBoardInput
     filter: FilterBoardInput
   ): Boards
-  boardsByUser(
+  boardsByAll(
     limit: Int
     after: Int
     orderBy: OrderByBoardInput

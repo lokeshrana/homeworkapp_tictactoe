@@ -1,0 +1,28 @@
+#import "@gqlapp/user-client-react/graphql/User.graphql"
+
+fragment BoardFields on Board {
+  id
+  user1Id
+  user2Id
+  winnerId
+  user1 {
+    ...UserInfo
+  }
+  user2 {
+    ...UserInfo
+  }
+  winner {
+    ...UserInfo
+  }
+  moves {
+    id
+    boardId
+    userId
+    positionX
+    positionY
+    createdAt
+    updatedAt
+  }
+  createdAt
+  updatedAt
+}

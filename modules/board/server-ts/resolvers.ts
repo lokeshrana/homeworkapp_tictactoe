@@ -5,7 +5,7 @@ const BOARD_SUBSCRIPTION = 'board_subscription';
 
 export default (pubsub: any) => ({
   Query: {
-    async boardsByUser(obj: any, { filter, limit, after, orderBy }: any, context: any) {
+    async boards(obj: any, { filter, limit, after, orderBy }: any, context: any) {
       const identity = context.req.identity;
       if (identity.id !== filter.userId && identity.role !== 'admin') {
         throw new Error('Unauthorized');
@@ -35,7 +35,7 @@ export default (pubsub: any) => ({
         },
       };
     },
-    async boards(obj: any, { filter, limit, after, orderBy }: any, context: any) {
+    async boardsByAll(obj: any, { filter, limit, after, orderBy }: any, context: any) {
       const boardOutput = await context.Board.boards(limit, after, orderBy, filter);
       const { boardItems, total } = boardOutput;
       const hasNextPage = total > after + limit;
@@ -72,6 +72,9 @@ export default (pubsub: any) => ({
           throw Error('You are not authorized to add a board');
         }
         const userByEmail = await context.User.getUserByEmail(inviteeEmail);
+        if(!userByEmail) {
+          throw Error('No user exists with this email');
+        }
         const checkIfBoardExistsForUsers = await context.Board.getBoardByBothUserIds(creatorId, userByEmail.id);
         if (checkIfBoardExistsForUsers) {
           throw Error('Board already exists for these users');
