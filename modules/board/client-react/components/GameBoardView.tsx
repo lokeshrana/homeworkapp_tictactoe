@@ -31,6 +31,9 @@ const getIfYourMove = (board: any, isCurrentUser1: boolean) => {
   if (board.winnerId) {
     return false;
   }
+  if(board?.moves?.length === 9){
+    return false
+  }
   if (isCurrentUser1) {
     return board?.moves?.length % 2 === 0;
   } else {
@@ -40,6 +43,8 @@ const getIfYourMove = (board: any, isCurrentUser1: boolean) => {
 
 const GameBoardsView = (props: any) => {
   const [boardLoading, setBoardLoading] = React.useState(false);
+  const [currentRow, setCurrentRow] = React.useState(null);
+  const [currentCol, setCurrentCol] = React.useState(null);
 
   const { t, currentUser, board, loading, handleMove } = props;
   const handleMakeMove = async (row: number, col: number) => {
@@ -58,9 +63,20 @@ const GameBoardsView = (props: any) => {
     } else {
       winStatement = `${otherUserName} won!`;
     }
+  } else {
+    if (board?.moves?.length === 9) {
+      winStatement = "It's a draw!";
+    }
   }
   const isYourMove = getIfYourMove(board, isCurrentUser1);
   const getBoxSymbol = (row: number, col: number) => {
+    if (row === currentRow && col === currentCol) {
+      if (isCurrentUser1) {
+        return <CrossSymbol />;
+      } else {
+        return <ZeroSymbol />;
+      }
+    }
     const move = board?.moves?.find(
       (m: any) => m.positionY === row && m.positionX === col
     );
@@ -80,6 +96,11 @@ const GameBoardsView = (props: any) => {
       }
     }
     return "";
+  };
+
+  const handleClickBox = (row: number, col: number) => {
+    setCurrentCol(col);
+    setCurrentRow(row);
   };
 
   return (
@@ -113,8 +134,10 @@ const GameBoardsView = (props: any) => {
                     const boxSymbol = getBoxSymbol(row, col);
                     return (
                       <div
-                        onClick={() => handleMakeMove(row, col)}
-                        className="game-board-piece"
+                        onClick={() => handleClickBox(row, col)}
+                        className={`game-board-piece ${
+                          currentRow === row && currentCol === col && "selected"
+                        }`}
                       >
                         {boxSymbol}
                       </div>
@@ -126,7 +149,11 @@ const GameBoardsView = (props: any) => {
           </div>
         </div>
       </div>
-      {winStatement === "" && (<Button>Submit</Button>)}
+      {winStatement === "" && (
+        <Button onClick={() => handleMakeMove(currentRow, currentCol)}>
+          Submit
+        </Button>
+      )}
     </PageLayout>
   );
 };

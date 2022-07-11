@@ -147,6 +147,9 @@ export default (pubsub: any) => ({
         if (!userByEmail) {
           throw Error("No user exists with this email");
         }
+        if(creatorId === userByEmail.id) {
+          throw Error('Cannot invite yourself to a game');
+        }
         const existingBoards = await context.Board.getBoardsByBothUserIds(
           creatorId,
           userByEmail.id

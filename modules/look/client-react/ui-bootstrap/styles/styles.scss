@@ -142,9 +142,11 @@ input {
   position: relative;
   .add-more-button {
     position: absolute;
+    padding:5px 15px;
+    z-index: 1000;
     bottom: 16px;
     right: 16px;
-    width: 100px;
+    width: 130px;
     height: 50px;
     background: black;
     color: white;
@@ -206,6 +208,9 @@ input {
         background: #444;
         color: white;
       }
+    }
+    .selected{
+      border: 2px solid black;
     }
   }
 }
