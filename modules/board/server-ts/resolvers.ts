@@ -75,7 +75,7 @@ export default (pubsub: any) => ({
         userId: identity.id,
       });
       const { boardItems, total } = boardOutput;
-      console.log("🚀 ~ file: resolvers.ts ~ line 78 ~ boardItems", boardItems)
+      console.log("🚀 ~ file: resolvers.ts ~ line 78 ~ boardItems", boardItems);
       const hasNextPage = total > after + limit;
 
       const edgesArray = [];
@@ -147,15 +147,20 @@ export default (pubsub: any) => ({
         if (!userByEmail) {
           throw Error("No user exists with this email");
         }
-        const existingBoards =
-        await context.Board.getBoardsByBothUserIds(creatorId, userByEmail.id);
-        console.log("🚀 ~ file: resolvers.ts ~ line 151 ~ addBoard:withAuth ~ existingBoards", existingBoards);
+        const existingBoards = await context.Board.getBoardsByBothUserIds(
+          creatorId,
+          userByEmail.id
+        );
+        console.log(
+          "🚀 ~ file: resolvers.ts ~ line 151 ~ addBoard:withAuth ~ existingBoards",
+          existingBoards
+        );
         let contineousBoardExists = false;
-        existingBoards.forEach((board:any)=>{
-          if(!board.winnerId){
+        existingBoards.forEach((board: any) => {
+          if (!board.winnerId) {
             contineousBoardExists = true;
           }
-        })
+        });
         if (contineousBoardExists) {
           throw Error("Board already exists for these users");
         }
@@ -164,7 +169,7 @@ export default (pubsub: any) => ({
           userId2: userByEmail.id,
         });
         const board = await context.Board.board(createdBoard.id);
-        // publish for boards list
+        // publish for board
         pubsub.publish(BOARD_SUBSCRIPTION, {
           boardUpdated: {
             mutation: "CREATED",
@@ -180,14 +185,15 @@ export default (pubsub: any) => ({
       const { boardId, positionX, positionY } = input;
       const identity = context.req.identity;
       const board = await context.Board.board(boardId);
-      console.log("🚀 ~ file: resolvers.ts ~ line 176 ~ makeMove:withAuth ~ board", identity, board)
+      console.log(
+        "🚀 ~ file: resolvers.ts ~ line 176 ~ makeMove:withAuth ~ board",
+        identity,
+        board
+      );
       if (board.winnerId) {
         throw Error("Game is already over");
       }
-      if (
-        board.user1Id !== identity.id &&
-        board.user2Id !== identity.id
-      ) {
+      if (board.user1Id !== identity.id && board.user2Id !== identity.id) {
         throw Error("You are not authorized to make a move");
       }
       const checkIfMoveAlreadyExists = board?.moves.find(
@@ -213,10 +219,7 @@ export default (pubsub: any) => ({
         throw Error("Error occured");
       } else if (gameWinner === "draw") {
         throw Error("Game is a draw");
-      } else if (
-        gameWinner === board.user1Id ||
-        gameWinner === board.user2Id
-      ) {
+      } else if (gameWinner === board.user1Id || gameWinner === board.user2Id) {
         throw Error("Game is over");
       }
       const moveRes = await context.Board.addMove({
@@ -237,7 +240,7 @@ export default (pubsub: any) => ({
         await context.Board.updateWinnerId(boardId, updatedGameWinner);
       }
       const doubleUpdatedBoard = await context.Board.board(boardId);
-      // publish for boards list
+      // publish for board
       pubsub.publish(BOARD_SUBSCRIPTION, {
         boardUpdated: {
           mutation: "UPDATED",
@@ -293,18 +296,15 @@ export default (pubsub: any) => ({
         () => pubsub.asyncIterator(BOARD_SUBSCRIPTION),
         (payload, variables) => {
           const { mutation, node } = payload.boardUpdated;
-          const {
-            filter: { userId },
-          } = variables;
-          const checkByFilter =
-            !userId || userId === node.user_1_id || userId === node.user_2_id;
+          const { id } = variables;
+          const checkByFilter = Number(id) === Number(node.id);
           switch (mutation) {
             case "DELETED":
               return true;
             case "CREATED":
               return checkByFilter;
             case "UPDATED":
-              return !checkByFilter;
+              return checkByFilter;
           }
         }
       ),

@@ -8,15 +8,20 @@ import { withBoard, withCurrentUser } from "./BoardsOperations";
 import { compose } from "@gqlapp/core-common";
 import { graphql, withApollo } from "react-apollo";
 import MAKE_MOVE from "../graphql/MakeMove.graphql";
-
+import {subscribeToBoard} from "./BoardSubscriptions";
 interface GameBoardsProps {
   t: TranslateFunction;
 }
 
 const GameBoards = (props: any) => {
-  const { makeMove } = props;
-  console.log("🚀 ~ file: GameBoard.tsx ~ line 18 ~ GameBoards ~ props", props)
-
+  const { makeMove, subscribeToMore, board, location, history } = props;
+  console.log("🚀 ~ file: GameBoard.tsx ~ line 18 ~ GameBoards ~ props", board)
+  React.useEffect(() => {
+    const subscribe = board && subscribeToBoard(subscribeToMore, board && board.id, history);
+    return () => {
+      () => subscribe();
+    };
+  }, [history, subscribeToMore, board, location]);
 
   const handleMove = async (row: number, col: number) => {
 
@@ -26,7 +31,6 @@ const GameBoards = (props: any) => {
         positionX: col,
         positionY: row,
       });
-      console.log("🚀 ~ file: GameBoard.tsx ~ line 33 ~ handleMove ~ updatedBoard", updatedBoard)
       
     } catch (e) {
       throw new Error("Make Move error", e.message);

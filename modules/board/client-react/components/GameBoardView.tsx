@@ -47,10 +47,7 @@ const GameBoardsView = (props: any) => {
     await handleMove(row, col);
     setBoardLoading(false);
   };
-  console.log(
-    "🚀 ~ file: GameBoardView.tsx ~ line 74 ~ GameBoardsView ~ board",
-    board
-  );
+
   const otherUserName = getOtherUserFullNameFromBoard(board, currentUser.id);
   const isCurrentUser1 = getIfCurrentUser1(board, currentUser.id);
   let winStatement = "";

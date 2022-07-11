@@ -21,7 +21,6 @@ const Footer = styled.footer`
 const PageLayout = (props) => {
   const { children, navBar, gridRows } = props;
   const history = useHistory();
-  console.log("🚀 ~ file: PageLayout.jsx ~ line 24 ~ PageLayout ~ history", history)
   const path = history.location.pathname;
   return (
     <div

@@ -71,7 +71,7 @@ extend type Mutation {
   deleteBoard(id: Int!): Board
 }
 
-input MakeMoveInput{
+input MakeMoveInput {
   boardId: Int
   positionX: Int
   positionY: Int
@@ -96,7 +96,7 @@ input AddBoardInput {
 # }
 
 extend type Subscription {
-  boardUpdated(filter: FilterBoardInput): UpdateBoardPayload
+  boardUpdated(id: Int!): UpdateBoardPayload
 }
 
 type UpdateBoardPayload {

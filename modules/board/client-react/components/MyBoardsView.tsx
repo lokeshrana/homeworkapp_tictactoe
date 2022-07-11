@@ -46,7 +46,6 @@ const MyBoardsView = (props: any) => {
               board,
               currentUser.id
               );
-              console.log("🚀 ~ file: MyBoardsView.tsx ~ line 90 ~ {boards?.edges?.map ~ board", board)
             const isCurrentUser1 = getIfCurrentUser1(board, currentUser.id);
             const boardCartDescriptionStatement =
               getBoardCartDescriptionStatement(

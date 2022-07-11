@@ -1,0 +1,10 @@
+#import "./Board.graphql"
+
+subscription onBoardUpdated($id: Int!) {
+  boardUpdated(id: $id) {
+    mutation
+    node {
+      ...BoardFields
+    }
+  }
+}
