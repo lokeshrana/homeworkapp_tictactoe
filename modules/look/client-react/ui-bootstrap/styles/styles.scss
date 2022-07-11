@@ -140,8 +140,9 @@ input {
   width: 100%;
   overflow: hidden;
   position: relative;
+  overflow-y: auto;
   .add-more-button {
-    position: absolute;
+    position: fixed;
     padding:5px 15px;
     z-index: 1000;
     bottom: 16px;

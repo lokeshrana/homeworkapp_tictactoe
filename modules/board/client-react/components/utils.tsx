@@ -76,6 +76,8 @@ export const getBoardCartDescriptionStatement = (
     } else if (board.winnerId === board.user2.id) {
       return isCurrentUser1 ? `${opponentFullName} won!` : "You won the game";
     }
+  } else if (moves?.length === 9) {
+    return "Game's a draw";
   } else if (moves?.length === 0) {
     return "You haven't started the game yet";
   } else if (moves?.length % 2 === 0) {
