@@ -1,0 +1,8 @@
+#import "./Board.graphql"
+
+
+mutation makeMove($input: MakeMoveInput!) {
+  makeMove(input: $input) {
+    ...BoardFields
+  }
+}

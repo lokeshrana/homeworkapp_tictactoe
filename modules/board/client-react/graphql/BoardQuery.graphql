@@ -1,6 +1,7 @@
-# GraphQL queries
-query queryNameQuery {
-  queryName {
-    typename
+#import "./Board.graphql"
+
+query board($id: Int) {
+  board(id: $id) {
+    ...BoardFields
   }
 }

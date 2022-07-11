@@ -67,7 +67,14 @@ input OrderByBoardInput {
 extend type Mutation {
   addBoard(input: AddBoardInput!): Board
   # editBoard(input: EditBoardInput!): Board
+  makeMove(input: MakeMoveInput!): Board
   deleteBoard(id: Int!): Board
+}
+
+input MakeMoveInput{
+  boardId: Int
+  positionX: Int
+  positionY: Int
 }
 
 input AddBoardInput {

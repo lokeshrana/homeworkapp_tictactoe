@@ -1,5 +1,6 @@
 @import "~bootstrap/scss/bootstrap";
-@import url('https://fonts.googleapis.com/css2?family=Bilbo&family=Epilogue:wght@400&display=swap');#root {
+@import url("https://fonts.googleapis.com/css2?family=Bilbo&family=Epilogue:wght@400&display=swap");
+#root {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -138,22 +139,22 @@ input {
   height: 100%;
   width: 100%;
   overflow: hidden;
-  position:relative;
-  .add-more-button{
+  position: relative;
+  .add-more-button {
     position: absolute;
     bottom: 16px;
     right: 16px;
     width: 100px;
     height: 50px;
     background: black;
-    color:white;
+    color: white;
     border-radius: 8px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
-    &:hover{
+    &:hover {
       background: #444;
       color: white;
     }
@@ -174,5 +175,37 @@ input {
     text-align: center;
 
     color: #000000;
+  }
+}
+
+.game-board-container {
+  background: #ffe79e;
+  .game-board-title {
+    height: 47px;
+    text-align: center;
+    justify-content: center;
+    display: grid;
+    place-items: center;
+  }
+  .game-board-game{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap:5px;
+    .game-board-piece{
+      width: 100%;
+      min-height: 124px;
+      height:100%;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      &:hover {
+        background: #444;
+        color: white;
+      }
+    }
   }
 }

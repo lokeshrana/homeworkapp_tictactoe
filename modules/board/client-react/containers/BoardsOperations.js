@@ -100,6 +100,7 @@ export const withBoards = Component =>
 export const withBoard = Component =>
   graphql(BOARD_QUERY, {
     options: props => {
+    console.log("🚀 ~ file: BoardsOperations.js ~ line 103 ~ props", props)
       let id = 0;
       if (props.match) {
         id = props.match.params.id;

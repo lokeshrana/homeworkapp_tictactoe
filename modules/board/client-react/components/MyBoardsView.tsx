@@ -71,11 +71,6 @@ const getBoardCartDescriptionStatement = (
 
 const MyBoardsView = (props: any) => {
   const { t, currentUser, boards, loading } = props;
-  console.log(
-    "🚀 ~ file: MyBoardsView.tsx ~ line 23 ~ MyBoardsView ~ currentUser",
-    currentUser,
-    boards
-  );
   const emptyBoards = loading || boards?.edges?.length === 0;
   return (
     <div className="my-boards-wrapper">
@@ -89,11 +84,13 @@ const MyBoardsView = (props: any) => {
             <Plus /> Add More
           </div>
         </Link>
-          {boards?.edges?.map((board: any) => {
+          {boards?.edges?.map((b: any) => {
+            const board = b?.node
             const otherUserName = getOtherUserFullNameFromBoard(
               board,
               currentUser.id
-            );
+              );
+              console.log("🚀 ~ file: MyBoardsView.tsx ~ line 90 ~ {boards?.edges?.map ~ board", board)
             const isCurrentUser1 = getIfCurrentUser1(board, currentUser.id);
             const boardCartDescriptionStatement =
               getBoardCartDescriptionStatement(
@@ -104,7 +101,7 @@ const MyBoardsView = (props: any) => {
 
             return (
               //@ts-ignore
-              <Card style={{ width: "100%", padding: "16px" }}>
+              <Card style={{ width: "100%", padding: "16px", marginBottom:"16px" }}>
                 <h2>{`Game with ${otherUserName}`}</h2>
                 <CardText>{boardCartDescriptionStatement}</CardText>
                 <Link to={`/board/${board.id}`}>
