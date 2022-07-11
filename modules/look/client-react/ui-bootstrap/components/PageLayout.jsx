@@ -3,12 +3,17 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
 import { Container } from "reactstrap";
-import { ChevronLeft } from "react-bootstrap-icons";
+import { ChevronLeft, BoxArrowInRight} from "react-bootstrap-icons";
 import settings from "@gqlapp/config";
-import { useHistory, Link  } from "react-router-dom";
-
+import { useHistory, Link, withRouter } from "react-router-dom";
 import NavBar from "./NavBar";
 import styles from "../styles/styles.scss";
+import { withCurrentUser } from "@gqlapp/board-client-react/containers/BoardsOperations";
+import { compose } from "@gqlapp/core-common";
+
+import { withApollo, graphql } from "react-apollo";
+
+import authentication from "@gqlapp/authentication-client-react";
 
 const footerHeight = "40px";
 
@@ -17,6 +22,29 @@ const Footer = styled.footer`
   line-height: ${footerHeight};
   height: ${footerHeight};
 `;
+
+const withLogout = (Component) =>
+  withApollo(({ client, ...props }) => {
+    const newProps = {
+      ...props,
+      logout: () => authentication.doLogout(client),
+    };
+    return <Component {...newProps} />;
+  });
+
+export const LogoutLink = withRouter(
+  withLogout(({ logout, history, t }) => (
+    <BoxArrowInRight
+      size={40}
+      onClick={(e) => {
+        (async () => {
+          await logout();
+          history.push("/");
+        })();
+      }}
+    />
+  ))
+);
 
 const PageLayout = (props) => {
   const { children, navBar, gridRows } = props;
@@ -27,7 +55,7 @@ const PageLayout = (props) => {
       style={{
         width: "100vw",
         height: "100vh",
-        padding: path === "/" ? "16px" : "100px 16px 16px 16px",
+        padding: "100px 16px 16px 16px",
         display: "grid",
         gap: "22px",
         gridTemplateRows: gridRows || "auto",
@@ -44,9 +72,22 @@ const PageLayout = (props) => {
             width: "fit-content",
           }}
         >
-          <Link to='/'>
-           <ChevronLeft size={25} color='black' />
+          <Link to="/">
+            <ChevronLeft size={25} color="black" />
           </Link>
+        </div>
+      )}
+      {props.currentUser && (
+        <div
+          style={{
+            position: "absolute",
+            right: "16px",
+            top: "22px",
+            height: "fit-content",
+            width: "fit-content",
+          }}
+        >
+          <LogoutLink />
         </div>
       )}
       {children}
@@ -75,4 +116,4 @@ PageLayout.propTypes = {
   navBar: PropTypes.bool,
 };
 
-export default PageLayout;
+export default compose(withCurrentUser)(PageLayout);

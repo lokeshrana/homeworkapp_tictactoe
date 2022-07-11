@@ -17,7 +17,7 @@ const NavLinkWithI18n = translate('board')(({ t }: { t: TranslateFunction }) => 
 
 export default new ClientModule({
   route: [
-    <AuthRoute  exact path="/" component={loadable(() => import('./containers/Board').then((c) => c.default))} />,
+    <Route  exact path="/" component={loadable(() => import('./containers/Board').then((c) => c.default))} />,
     <AuthRoute  exact path="/board/new" component={loadable(() => import('./containers/AddBoard').then((c) => c.default))} />,
     <AuthRoute  exact path="/board/:id" component={loadable(() => import('./containers/GameBoard').then((c) => c.default))} />,
   ],

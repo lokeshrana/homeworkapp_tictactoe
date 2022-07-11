@@ -7,12 +7,7 @@ import { isFormError, FieldAdapter as Field } from "@gqlapp/forms-client-react";
 import { translate } from "@gqlapp/i18n-client-react";
 import { required, minLength, validate } from "@gqlapp/validation-common-react";
 import { Form, RenderField, Alert, Button } from "@gqlapp/look-client-react";
-import {
-  LinkedInButton,
-  GoogleButton,
-  GitHubButton,
-  FacebookButton,
-} from "@gqlapp/authentication-client-react";
+
 import settings from "@gqlapp/config";
 
 const loginFormSchema = {

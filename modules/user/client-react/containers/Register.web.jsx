@@ -43,10 +43,10 @@ const RegisterWithApollo = compose(
 
   graphql(REGISTER, {
     props: ({ mutate }) => ({
-      register: async ({ username, email, password }) => {
+      register: async ({ username, email, password, firstName, lastName }) => {
         const {
           data: { register },
-        } = await mutate({ variables: { input: { username, email, password } } });
+        } = await mutate({ variables: { input: { username, email, password, firstName, lastName } } });
         return register;
       },
     }),

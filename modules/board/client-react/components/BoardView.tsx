@@ -6,18 +6,6 @@ import { TranslateFunction } from "@gqlapp/i18n-client-react";
 import settings from "@gqlapp/config";
 import MyBoards from "../containers/MyBoards";
 
-interface BoardViewProps {
-  t: TranslateFunction;
-}
-
-const renderMetaData = (t: TranslateFunction) => (
-  <Helmet
-    title={`${settings.app.name} - ${t("title")}`}
-    meta={[
-      { name: "description", content: `${settings.app.name} - ${t("meta")}` },
-    ]}
-  />
-);
 
 const BoardView = (props: any) => {
   const { t, currentUser } = props;
@@ -27,7 +15,7 @@ const BoardView = (props: any) => {
   );
   return (
     <PageLayout gridRows={currentUser ? "auto" : "1fr 60px 60px"}>
-      {renderMetaData(t)}
+      {/* {renderMetaData(t)} */}
       {currentUser ? (
         <MyBoards currentUser={currentUser} />
       ) : (

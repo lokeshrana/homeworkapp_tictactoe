@@ -162,8 +162,8 @@ export class User extends Model {
     );
   }
 
-  register({ username, email, role = 'user', isActive }, passwordHash) {
-    return knex('user').returning('id').insert(decamelizeKeys({ username, email, role, passwordHash, isActive }));
+  register({ username, email, role = 'user', isActive, firstName, lastName }, passwordHash) {
+    return knex('user').returning('id').insert(decamelizeKeys({ username, email, role, passwordHash, isActive, firstName, lastName }));
   }
 
   createFacebookAuth({ id, displayName, userId }) {

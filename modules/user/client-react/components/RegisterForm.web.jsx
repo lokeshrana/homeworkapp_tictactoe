@@ -18,11 +18,8 @@ const registerFormSchema = {
   username: [required, minLength(3)],
   email: [required, email],
   password: [required, minLength(settings.auth.password.minLength)],
-  passwordConfirmation: [
-    match("password"),
-    required,
-    minLength(settings.auth.password.minLength),
-  ],
+  firstName:[required, minLength(3)],
+  lastName:[required, minLength(3)]
 };
 
 const RegisterForm = ({ values, handleSubmit, submitting, errors, t }) => {
@@ -56,12 +53,21 @@ const RegisterForm = ({ values, handleSubmit, submitting, errors, t }) => {
         />
         <br />
         <Field
-          name="passwordConfirmation"
+          name="firstName"
           component={RenderField}
-          type="password"
-          label={t("reg.form.field.passConf")}
-          value={values.passwordConfirmation}
+          type="firstName"
+          label={"First Name"}
+          value={values.firstName}
         />
+        <br />
+        <Field
+          name="lastName"
+          component={RenderField}
+          type="lastName"
+          label={"Last Name"}
+          value={values.lastName}
+        />
+
       </div>
       <div className="text-center">
         {errors && errors.errorMsg && (
@@ -88,7 +94,8 @@ const RegisterFormWithFormik = withFormik({
     username: "",
     email: "",
     password: "",
-    passwordConfirmation: "",
+    firstName: "",
+    lastName: "",
   }),
   validate: (values) => validate(values, registerFormSchema),
   async handleSubmit(values, { setErrors, props: { onSubmit } }) {
